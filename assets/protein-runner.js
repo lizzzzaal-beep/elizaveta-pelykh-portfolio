@@ -48,11 +48,6 @@
     project.querySelectorAll('.media:not(.carousel-row)').forEach(el=>{
       const b=el.getBoundingClientRect();ctx.fillRect(b.left,b.top,b.width,b.height);
     });
-    if(phone.matches){
-      project.querySelectorAll('.label,.case-head,.media-caption').forEach(el=>{
-        const b=el.getBoundingClientRect();ctx.fillRect(b.left-4,b.top-4,b.width+8,b.height+8);
-      });
-    }
     ctx.fillRect(0,0,w,Math.max(0,r.top));
     ctx.fillRect(0,Math.max(0,r.bottom),w,h);
     ctx.restore();
