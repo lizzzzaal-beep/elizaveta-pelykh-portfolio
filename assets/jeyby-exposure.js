@@ -20,7 +20,7 @@
     pending=0;
     const h=innerHeight,w=innerWidth;
     const bounds=project.getBoundingClientRect();
-    const p=phone.matches?clamp((h*.9-bounds.top)/(h*.75)):clamp((h*.45-bounds.top)/(h*.65));
+    const p=phone.matches?clamp((h*.65-bounds.top)/(h*.65)):clamp((h*.45-bounds.top)/(h*.65));
     const feather=Math.min(240,h*.25);
     layer.style.maskImage='linear-gradient(to bottom, transparent '+bounds.top+'px, black '+(bounds.top+feather)+'px, black '+(bounds.bottom-feather)+'px, transparent '+bounds.bottom+'px)';
     const nextTop=project.nextElementSibling.getBoundingClientRect().top;
@@ -38,12 +38,18 @@
     });
     word.style.opacity=mobile.matches?0:ease((p-.04)/.1)*exitLight;
     if(phone.matches){
-      const presence=ease((p-.06)/.14)*(1-ease((p-.65)/.3));
-      layer.style.maskImage='none';
-      layer.style.background='rgba(16,26,45,'+(quiet?0:ease(p/.12)*(1-ease((p-.65)/.3)))+')';
-      word.style.opacity=quiet?0:presence;
+      // The desktop light discovery, compressed into the existing section approach.
+      // Keep the project visible underneath instead of inserting an opaque title card.
+      const enter=ease(p/.22),leave=ease((p-.58)/.42);
+      const lit=ease((p-.04)/.34),edge=-15+lit*130;
+      word.style.setProperty('--phone-light',p>=.4?'none':
+        `linear-gradient(103deg,black ${edge-24}%,rgba(0,0,0,.22) ${edge}%,transparent ${edge+20}%)`);
+      word.style.setProperty('--phone-y',((1-enter)*h*.18-leave*h*.08)+'px');
+      word.style.setProperty('--phone-scale',String(.94+.06*enter-.035*leave));
+      layer.style.background='rgba(16,26,45,'+(quiet?0:.35*enter*(1-leave))+')';
+      word.style.opacity=quiet?0:enter*(1-leave);
       frames.forEach((el,i)=>{
-        const reveal=quiet?1:ease((p-.76-i*.012)/.19);
+        const reveal=quiet?1:ease((p-.52-i*.018)/.42);
         el.style.clipPath=reveal===1?'none':'inset(0 '+((1-reveal)*50)+'%)';
         captions[i].style.opacity=reveal;
       });

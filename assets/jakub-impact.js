@@ -27,7 +27,7 @@
     const hold=reduced.matches||phone.matches?0:Math.min(h*.06,Math.max(0,-top-h*.06));
     grid.style.translate=hold?`0 ${hold}px`:'none';
     // On phones both rows get a full viewing interval before recession begins.
-    const exitStart=phone.matches?Math.max(h*.9,grid.getBoundingClientRect().bottom-top-h*.45):h*(.06+.06);
+    const exitStart=phone.matches?Math.max(h*.9,grid.getBoundingClientRect().bottom-top-h*.12):h*(.06+.06);
     const exit=reduced.matches?0:clamp((-top-exitStart)/(h*.3));
     items.forEach((item,i)=>{
       const delay=[.66,.55,.58,.69][i];

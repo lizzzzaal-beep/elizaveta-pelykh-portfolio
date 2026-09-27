@@ -386,7 +386,7 @@ h1{font-size:68px;line-height:.95}
 @media(max-width:600px){
  .hp-pressure-high{font-size:28vw;left:0;top:36%;transform-origin:center}
  .hp-pressure-protein{font-size:20vw;left:0;right:auto;top:53%;transform-origin:center}
- .jeyby-exposure-word{font-size:28vw;mask-image:none!important}
- #jakub{padding-bottom:calc(24px + 35svh)}
+ .jeyby-exposure-word{font-size:28vw;mask-image:var(--phone-light,none)!important;transform:translateY(var(--phone-y,0px)) scale(var(--phone-scale,1))}
+ #jakub{padding-bottom:24px}
 }
 @media(max-width:600px) and (prefers-reduced-motion:reduce){#jakub{padding-bottom:24px}}
