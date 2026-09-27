@@ -7,6 +7,7 @@
   const glove=document.createElement('img');glove.src='assets/jakub-boxer.png';glove.alt='';
   layer.append(glove);grid.append(layer);
   const reduced=matchMedia('(prefers-reduced-motion:reduce)');
+  const phone=matchMedia('(max-width:600px)');
   const clamp=v=>Math.max(0,Math.min(1,v));
   const ease=v=>{v=clamp(v);return v*v*(3-2*v)};
   let raf=0;
@@ -23,9 +24,11 @@
     const contact=Math.max(0,1-Math.abs(p-.5)/.025);
     layer.style.translate=`0 ${contact*2}px`;
     // A held media beat after contact, followed by a quiet chapter exit.
-    const hold=reduced.matches?0:Math.min(h*.06,Math.max(0,-top-h*.06));
+    const hold=reduced.matches||phone.matches?0:Math.min(h*.06,Math.max(0,-top-h*.06));
     grid.style.translate=hold?`0 ${hold}px`:'none';
-    const exit=reduced.matches?0:clamp((-top-h*(.06+.06))/(h*.3));
+    // On phones both rows get a full viewing interval before recession begins.
+    const exitStart=phone.matches?Math.max(h*.9,grid.getBoundingClientRect().bottom-top-h*.45):h*(.06+.06);
+    const exit=reduced.matches?0:clamp((-top-exitStart)/(h*.3));
     items.forEach((item,i)=>{
       const delay=[.66,.55,.58,.69][i];
       const t=reduced.matches?1:ease((p-delay)/(1-delay));

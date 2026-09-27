@@ -381,3 +381,12 @@ h1{font-size:68px;line-height:.95}
    Clip only at the original vertical boundaries, retaining the existing edge feather. */
 #jeyby{overflow:visible;clip-path:inset(0 -100vw)}
 #jeyby::before{left:50%;right:auto;width:100vw;transform:translateX(-50%)}
+
+/* Phone-only corrections; tablet and desktop timelines retain their approved rules. */
+@media(max-width:600px){
+ .hp-pressure-high{font-size:28vw;left:0;top:36%;transform-origin:center}
+ .hp-pressure-protein{font-size:20vw;left:0;right:auto;top:53%;transform-origin:center}
+ .jeyby-exposure-word{font-size:28vw;mask-image:none!important}
+ #jakub{padding-bottom:calc(24px + 35svh)}
+}
+@media(max-width:600px) and (prefers-reduced-motion:reduce){#jakub{padding-bottom:24px}}

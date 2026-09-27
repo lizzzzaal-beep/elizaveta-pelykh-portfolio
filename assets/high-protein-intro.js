@@ -2,6 +2,7 @@
   const project=document.querySelector('#high-protein');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   const small=matchMedia('(max-width:700px)');
+  const phone=matchMedia('(max-width:600px)');
   const scene=document.createElement('div');
   scene.className='hp-pressure-scene';scene.setAttribute('aria-hidden','true');
   scene.innerHTML='<div class="hp-pressure-backdrop"></div><canvas></canvas><div class="hp-pressure-id">02 / HIGH PROTEIN</div><div class="hp-pressure-word hp-pressure-high">HIGH</div><div class="hp-pressure-word hp-pressure-protein">PROTEIN</div>';
@@ -33,9 +34,21 @@
     // Heavy lateral loading differs from the loose Grand Dessert assembly.
     // Perspective translation then crosses the camera plane; there is no settled title.
     const inward=pressure*(small.matches?w*.12:w*.20);
-    const z=rush*700;
+    const z=rush*(phone.matches?200:700);
+    // Fit layout bounds before perspective, leaving room for the inward pressure.
+    if(phone.matches){
+      [high,protein].forEach(el=>{
+        el.style.fontSize='';
+        const size=parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize=(size*Math.min(1,w*.62/el.offsetWidth))+'px';
+      });
+    }else{high.style.fontSize=protein.style.fontSize=''}
     high.style.transform=`translate3d(${inward}px,${pressure*14}px,${z}px)`;
     protein.style.transform=`translate3d(${-inward}px,${-pressure*14}px,${z}px)`;
+    if(phone.matches){
+      high.style.transform=`translate3d(${(w-high.offsetWidth)/2-high.offsetLeft-(1-pressure)*w*.04}px,${pressure*14}px,${z}px)`;
+      protein.style.transform=`translate3d(${(w-protein.offsetWidth)/2-protein.offsetLeft+(1-pressure)*w*.04}px,${-pressure*14}px,${z}px)`;
+    }
     high.style.opacity=protein.style.opacity=wordEntry*(1-clear);
     const dpr=Math.min(devicePixelRatio||1,2);
     if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){
